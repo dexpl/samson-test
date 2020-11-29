@@ -9,4 +9,4 @@ php.upgrade.yml: playbook для ansible, обновляющий php с 5.6 до
 
 Makefile: вызывает adhoc-команду ansible для преобразования templates/hello.world.php.j2 в hello.world.php. Преобразование сводится к добавлению shebang и установке разрешения на выполнение. Честно говоря, это чистейшей воды выпендреж вида "смотрите, как я умею", оправданный только тем, что требуемый по заданию скрипт на php получается подходящим как для php-cli, так и для php-fpm, причем для обоих вариантов генерируется из одного шаблона одним и тем же инструментом (такой вот don't repeat yourself).
 
-once3sec.sh: вызов `uname -n`, `date` и `whoami` раз в три секунды; once3sec.nowatch.sh — то же самое, но без использования watch.
+once3sec.sh: вызов `uname -n`, `date` и `whoami` раз в три секунды; once3sec.nowatch.sh — почти то же самое, но без использования watch и с `id -un` вместо `whoami`. Работает даже на ash из OpenWrt 2016 года.

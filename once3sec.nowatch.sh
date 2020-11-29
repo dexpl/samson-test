@@ -3,6 +3,6 @@
 while true; do
 	uname -n
 	date
-	whoami
+	id -un
 	sleep 3
 done
