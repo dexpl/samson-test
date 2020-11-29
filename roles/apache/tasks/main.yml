@@ -1,0 +1,17 @@
+# TODO separate distro-specific package name(s) into different files
+- package:
+    name:
+    - apache2
+    policy_rc_d: 101 # start no daemons right upon installation
+# Apache config directory layout in Debobuntu is way too specific
+- template:
+    src: '{{ item }}'
+    dest: '/etc/{{ (item | splitext)[0] }}'
+  with_items:
+  - apache2/ports.conf.j2
+  - apache2/sites-available/000-default.conf.j2
+  notify: reload apache
+- service:
+    name: apache2
+    enabled: yes
+    state: started

@@ -1,0 +1,3 @@
+---
+- package:
+    name: '{{ general_pkgs }}'

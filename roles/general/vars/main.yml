@@ -1,0 +1,5 @@
+general_pkgs:
+  - htop
+  - tmux
+  - vim
+  - wget

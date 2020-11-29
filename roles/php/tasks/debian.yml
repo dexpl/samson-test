@@ -1,0 +1,8 @@
+---
+- apt_key: 
+    url: https://packages.sury.org/php/apt.gpg
+- apt:
+    name: apt-transport-https
+    update_cache: yes
+- apt_repository:
+    repo: "deb https://packages.sury.org/php/ {{ ansible_distribution_release }} main"

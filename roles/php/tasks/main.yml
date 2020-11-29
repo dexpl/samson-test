@@ -1,0 +1,6 @@
+- include_tasks: '{{ ansible_os_family | lower }}.yml'
+# `package` is package manager agnostic, but some package names are in fact Debian-specific
+# would use some sort of `include {{ ansible_os_family }}` stuff if needed to be distro-agnostic
+- package:
+    name:
+    - 'php{{ php_version }}-fpm'

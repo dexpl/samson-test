@@ -1,0 +1,46 @@
+---
+# This playbook upgrades PHP 5.6 (or any given php_version) to 7.2 (or any given new_php_version)
+# Exact steps are:
+# 1) check whether new_php_version is present already for the sake of idempotence (see the next step). Also check whether php_version is still around;
+# 2) enable PHP repo from packages.sury.org. Yes, this limits us to Debian-based GNU/Linux distros. Would use Remi for Red Hat based ones if required to support 'em;
+# 3) actually deploy new_php_version;
+# 4) specify new_php_version in nginx configuration. Would do the similar for Apache and whatever else using php if required to;
+# 5) remove php_version;
+
+# Checking for presence of php version higher than new_php_version is yet to be done
+
+- hosts: all
+  vars:
+    php_version: 5.6
+    new_php_version: 7.2
+  tasks:
+  - fail:
+      msg: Non-debian-based OS support is yet to be done
+    when: ansible_os_family != 'Debian'
+  # First, find out whether new_php_version is present already
+  - package_facts:
+  - set_fact:
+      php_present: '{{ ansible_facts.packages["php" ~ php_version ~ "-common"] | default([]) | length > 0 }}'
+      new_php_present: '{{ ansible_facts.packages["php" ~ new_php_version ~ "-common"] | default([]) | length > 0 }}'
+  - block:
+    - block:
+      - include_role:
+          name: php
+        vars:
+          php_version: '{{ new_php_version }}'
+        register: new_php
+      when: not new_php_present
+    # Doing these steps unconditionally could possibly lead to "no php at all" situation
+    - include_role: 
+        name: nginx
+      vars:
+        php_version: '{{ new_php_version }}'
+    - package:
+        name:
+        - 'php{{ php_version }}-common'
+        autoclean: yes
+        autoremove: yes
+        purge: yes
+        state: absent
+      when: new_php_present or new_php.changed | default(false)
+    become: true

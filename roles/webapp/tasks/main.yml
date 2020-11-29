@@ -1,0 +1,4 @@
+# Hardcoded dest dir ain't good in general but kinda OK in this just-a-test-job case
+- template:
+    src: hello.world.php.j2
+    dest: /var/www/html/index.php

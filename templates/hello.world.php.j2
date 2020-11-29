@@ -1,0 +1,6 @@
+{% if shebang | default() %}
+{{ shebang }}
+{% endif %}
+<?php
+// {{ ansible_managed }}
+print "Hello, world!\n";

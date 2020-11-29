@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: true
+  roles:
+  - general
+  - php
+  - apache
+  - nginx
+  - webapp

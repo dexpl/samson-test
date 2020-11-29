@@ -1,0 +1,15 @@
+- package:
+    name:
+    - nginx
+    policy_rc_d: 101 # start no daemons right upon installation
+# nginx config directory layout in Debobuntu is specific; maybe I should've used a package from nginx.org repo - it'd be easier to maintain cross-disto (or even cross-OS) compatibility
+- template:
+    src: '{{ item }}'
+    dest: '/etc/{{ (item | splitext)[0] }}'
+  with_items:
+  - nginx/sites-available/default.j2
+  notify: reload nginx
+- service:
+    name: nginx
+    enabled: yes
+    state: started
